@@ -51,18 +51,6 @@ class ProductManager{
             detalle del error : ${error}`);
         }
 }
-deleteProductById = async (productId) => {
-    try {
-        const products = await this.productList();
-        const updatedProducts = products.filter(product => product.id !== productId);
-        await this.fileSystem.promises.writeFile(this.productsFilePath, JSON.stringify(updatedProducts, null, 2, '\t'));
-        console.log(`Producto con ID ${productId} eliminado correctamente.`);
-    } catch(error) {
-        console.error(`Error al eliminar el producto con ID ${productId}: ${error}`);
-        throw Error(`Error al eliminar el producto con ID ${productId}: ${error}`);
-    }
-}
-
     getProductById = async (productId) => {
         try {
             const products = await this.productList();
@@ -100,7 +88,17 @@ deleteProductById = async (productId) => {
             detalle del error : ${error}`);
         }
     }
-} 
+    deleteProductById = async (productId) => {
+        try {
+            const products = await this.productList();
+            const updatedProducts = products.filter(product => product.id !== productId);
+            await this.fileSystem.promises.writeFile(this.productsFilePath, JSON.stringify(updatedProducts, null, 2, '\t'));
+            console.log(`Producto con ID ${productId} eliminado correctamente.`);
+        } catch(error) {
+            console.error(`Error al eliminar el producto con ID ${productId}: ${error}`);
+            throw Error(`Error al eliminar el producto con ID ${productId}: ${error}`);
+        }
+    }
     updateProduct = async (productId, fieldToUpdate, updatedValue) => {
     try {
         const products = await this.productList();
@@ -117,5 +115,5 @@ deleteProductById = async (productId) => {
         console.error(`Error al actualizar el producto con ID ${productId}: ${error}`);
         throw Error(`Error al actualizar el producto con ID ${productId}: ${error}`);
     }
-}
+}} 
 module.exports = ProductManager;
